@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "head.html" %}
+</head>
+<body>
+
+{% include "navbar.html" %}
+
+<section class="py-1">
+    <div class="row mt-5">
+        <div class="col-md-7 offset-lg-2">
+            <div class="form-group mb-3">
+                <label for="cameraSelect">Pilih Kamera:</label>
+                <select class="form-control" id="cameraSelect" onchange="changeCamera()">
+                    {% for camera in cameras %}
+                    <option value="{{ camera }}">Kamera {{ camera }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <img id="videoFeed" src="{{ url_for('vidfeed_dataset', nbr=prs) }}" width="100%" class="img-thumbnail">
+        </div>
+    </div>
+
+    <br>
+    <div class="row">
+        <div class="col-md-3 offset-lg-2">
+            <a class="btn btn-warning btn-lg" href="{{ url_for('train_classifier', nbr=prs) }}"> Training </a>
+        </div>
+    </div>
+</section>
+
+<script>
+let currentCamera = 0;
+
+function changeCamera() {
+    var cameraId = document.getElementById('cameraSelect').value;
+    if (cameraId === currentCamera) return;
+    
+    currentCamera = cameraId;
+    var videoFeed = document.getElementById('videoFeed');
+    videoFeed.src = "{{ url_for('vidfeed_dataset', nbr=prs) }}?camera=" + cameraId;
+    
+    // Tambahkan event listener untuk menangani error
+    videoFeed.onerror = function() {
+        console.error("Error loading video feed");
+        alert("Tidak dapat mengakses kamera yang dipilih. Silakan pilih kamera lain.");
+        // Kembali ke kamera default
+        document.getElementById('cameraSelect').value = "0";
+        currentCamera = 0;
+        videoFeed.src = "{{ url_for('vidfeed_dataset', nbr=prs) }}?camera=0";
+    };
+}
+</script>
+
+</body>
+</html>

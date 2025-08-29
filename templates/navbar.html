@@ -1,0 +1,92 @@
+<nav class="navbar navbar-fixed-top navbar-expand-lg py-2 navbar-dark bg-dark shadow-sm">
+    <div class="container">
+        <a href="#" class="navbar-brand">
+          <!-- Logo Image -->
+          <img src="{{ url_for('static', filename='img/logo.png') }}" width="45" alt="" class="d-inline-block align-middle mr-2">
+          <!-- Logo Text -->
+          <span class="font-weight-bold">Aplikasi Absensi Face Recognition</span>
+        </a>
+
+         <ul class="nav nav-pills"  >
+
+       <!-- START MENU UNTUK LEVEL ADMIN -->
+        {% if session['level'] == 'Admin' : %}
+
+          <li class="navbar-brand">
+            <div class="dropdown">
+              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Download
+              </a>
+
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="{{url_for('downloadExcelAll')}}">Download Semua Absen</a>
+                <a class="dropdown-item" href="{{url_for('downloadExcelBydate')}}">Download Semua By Tanggal</a>
+                <a class="dropdown-item" href="{{url_for('downloadExcelByname')}}">Download Semua By Name By Tanggal</a>
+              </div>
+            </div>
+          </li>
+          <li class="navbar-brand">
+               <a class="btn btn-secondary" href="{{url_for('admin')}}" role="button"   aria-expanded="false">
+                Data Petugas
+              </a>
+          </li>
+             <li class="navbar-brand">
+              <a class="btn btn-secondary" href="{{url_for('petugas')}}" role="button"   aria-expanded="false">
+                Data Pegawai
+              </a>
+          </li>
+              <li class="navbar-brand">
+                   <div class="dropdown">
+              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Akun
+              </a>
+
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="#">{{ session.level }} :  {{ session.username }}</a>
+                <a class="dropdown-item" href="{{url_for('logout')}}">Logout</a>
+              </div>
+            </div>
+
+          </li>
+
+        <!-- END MENU UNTUK LEVEL ADMIN -->
+        {% elif session['level'] == 'Petugas' : %}
+        <!-- START MENU UNTUK LEVEL PETUGAS -->
+             <li class="navbar-brand">
+            <div class="dropdown">
+              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Download
+              </a>
+
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="{{url_for('downloadExcelAll')}}">Download Semua Absen</a>
+                <a class="dropdown-item" href="{{url_for('downloadExcelBydate')}}">Download Semua By Tanggal</a>
+                <a class="dropdown-item" href="{{url_for('downloadExcelByname')}}">Download Semua By Name By Tanggal</a>
+              </div>
+            </div>
+          </li>
+          <li class="navbar-brand">
+            <a class="btn btn-secondary" href="{{url_for('petugas')}}" role="button"   aria-expanded="false">
+                Data Pegawai
+              </a>
+          </li>
+             <li class="navbar-brand">
+             <div class="dropdown">
+              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Akun
+              </a>
+
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="#">{{ session.level }} :  {{ session.username }}</a>
+                <a class="dropdown-item" href="{{url_for('logout')}}">Logout</a>
+              </div>
+            </div>
+          </li>
+
+        <!-- END MENU UNTUK LEVEL PETUGAS -->
+        {% endif %}
+
+
+        </ul>
+    </div>
+</nav>
